@@ -2,3 +2,5 @@ aiogram~=2.24
 python-unsplash~=1.1
 environs~=9.5
 apscheduler~=3.9
+redis~=4.4
+apscheduler-di~=0.0
