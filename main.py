@@ -9,7 +9,6 @@ from unsplash.auth import Auth
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.jobstores.redis import RedisJobStore
-from apscheduler_di import ContextSchedulerDecorator
 
 from redis import Redis
 
@@ -41,7 +40,7 @@ job_stores = {
     )
 }
 
-scheduler = ContextSchedulerDecorator(AsyncIOScheduler(jobstores=job_stores))
+scheduler = AsyncIOScheduler(jobstores=job_stores)
 
 chats: List[str] = []
 
