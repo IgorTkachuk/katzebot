@@ -8,6 +8,8 @@ aiogram = "==2.24"
 python-unsplash = "*"
 environs = "*"
 apscheduler = "*"
+redis = "*"
+apininjas = "*"
 
 [dev-packages]
 

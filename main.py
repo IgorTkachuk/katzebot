@@ -1,5 +1,7 @@
+import json
 import logging
 from typing import List
+from types import SimpleNamespace
 
 from aiogram import Bot, Dispatcher, types
 from aiogram.utils import executor
@@ -13,6 +15,8 @@ from apscheduler.jobstores.redis import RedisJobStore
 from redis import Redis
 
 from config import load_config
+
+import requests
 
 config = load_config(".env")
 
@@ -104,6 +108,20 @@ async def get_configuration(message: types.Message):
         await message.answer("No distribution planed")
     else:
         await message.answer(result)
+
+
+@dp.message_handler(commands=["quote"])
+async def quote(message: types.Message):
+    category = 'happiness'
+    api_url = 'https://api.api-ninjas.com/v1/quotes?category={}'.format(category)
+    response = requests.get(api_url, headers={'X-Api-Key': config.apininjas.key})
+    if response.status_code == requests.codes.ok:
+        data = json.loads(response.text)
+        text = data[0].get('quote')
+        author = data[0].get('author')
+        await message.answer(f"{text}\n\n{author}")
+    else:
+        logger.error("Error:" + str(response.status_code) + response.text)
 
 
 if __name__ == '__main__':
